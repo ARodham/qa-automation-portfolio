@@ -1,5 +1,7 @@
 # QA Automation Portfolio
 
+[![QA Automation](https://github.com/ARodham/qa-automation-portfolio/actions/workflows/tests.yml/badge.svg)](https://github.com/ARodham/qa-automation-portfolio/actions/workflows/tests.yml)
+
 A small, self-contained quality engineering project demonstrating how I approach **UI automation, REST API validation, regression design, CI/CD, maintainable test code, and release confidence**.
 
 > **Portfolio note:** My professional automation work is contained within employer-owned repositories and cannot be shared publicly. This repository was created independently as a demonstration project and contains no employer code, test data, endpoints, credentials, architecture, or other proprietary information.

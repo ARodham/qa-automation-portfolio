@@ -38,3 +38,11 @@ jobs:
         with:
           name: pytest-html-report
           path: reports/report.html
+
+      - name: Upload failure screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+           name: playwright-failure-screenshots
+           path: reports/screenshots/
+           if-no-files-found: ignore

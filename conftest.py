@@ -12,6 +12,7 @@ from utils.config import base_url, chromium_path, headless
 
 
 ROOT = Path(__file__).resolve().parent
+SCREENSHOT_DIR = ROOT / "reports" / "screenshots"
 
 
 def _port_is_open(host: str, port: int) -> bool:
@@ -19,6 +20,13 @@ def _port_is_open(host: str, port: int) -> bool:
         sock.settimeout(0.2)
         return sock.connect_ex((host, port)) == 0
 
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    report = outcome.get_result()
+
+    if report.when == "call":
+        item.test_result = report
 
 @pytest.fixture(scope="session", autouse=True)
 def demo_server():
@@ -77,8 +85,17 @@ def browser():
 
 
 @pytest.fixture
-def page(browser):
+def page(browser, request):
     context = browser.new_context()
     page = context.new_page()
+
     yield page
+
+    test_result = getattr(request.node, "test_result", None)
+
+    if test_result and test_result.failed:
+        SCREENSHOT_DIR.mkdir(parents=True, exist_ok=True)
+        screenshot_path = SCREENSHOT_DIR / f"{request.node.name}.png"
+        page.screenshot(path=screenshot_path, full_page=True)
+
     context.close()

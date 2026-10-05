@@ -14,7 +14,7 @@ def test_valid_user_can_sign_in(page):
     login.login_as("demo_user", "quality123")
 
     inventory.heading.wait_for()
-    assert page.url.endswith("/this-should-fail")
+    assert page.url.endswith("/inventory")
 
 
 @pytest.mark.regression
